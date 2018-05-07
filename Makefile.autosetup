@@ -152,6 +152,14 @@ MUTTLIBS+=	$(LIBNCRYPT)
 ALLOBJS+=	$(LIBNCRYPTOBJS)
 
 ###############################################################################
+# libhelp
+LIBHELP=	libhelp.a
+LIBHELPOBJS=	help/help.o
+CLEANFILES+=	$(LIBHELP) $(LIBHELPOBJS)
+MUTTLIBS+=	$(LIBHELP)
+ALLOBJS+=	$(LIBHELPOBJS)
+
+###############################################################################
 # libimap
 LIBIMAP=	libimap.a
 LIBIMAPOBJS=	imap/auth.o imap/auth_anon.o imap/auth_cram.o \
@@ -333,6 +341,13 @@ $(LIBNCRYPT): $(PWD)/ncrypt $(LIBNCRYPTOBJS)
 	$(RANLIB) $@
 $(PWD)/ncrypt:
 	$(MKDIR_P) $(PWD)/ncrypt
+
+# libhelp
+$(LIBHELP): $(PWD)/help $(LIBHELPOBJS)
+	$(AR) cr $@ $(LIBHELPOBJS)
+	$(RANLIB) $@
+$(PWD)/help:
+	$(MKDIR_P) $(PWD)/help
 
 # libimap
 $(LIBIMAP): $(PWD)/imap $(LIBIMAPOBJS)

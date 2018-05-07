@@ -1,9 +1,9 @@
 /**
  * @file
- * Type representing a mailbox
+ * Help system
  *
  * @authors
- * Copyright (C) 2017-2018 Richard Russon <rich@flatcap.org>
+ * Copyright (C) 2018 Richard Russon <rich@flatcap.org>
  *
  * @copyright
  * This program is free software: you can redistribute it and/or modify it under
@@ -20,32 +20,12 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MUTT_CONFIG_MAGIC_H
-#define MUTT_CONFIG_MAGIC_H
+#ifndef _HELP_HELP_H
+#define _HELP_HELP_H
 
-struct ConfigSet;
+#include <stdbool.h>
+#include "mx.h"
 
-extern const char *magic_values[];
+extern struct MxOps mx_help_ops;
 
-/**
- * enum MailboxType - Supported mailbox formats
- */
-enum MailboxType
-{
-  MUTT_MAILBOX_ERROR = -1,
-  MUTT_UNKNOWN = 0,
-  MUTT_MBOX,
-  MUTT_MMDF,
-  MUTT_MH,
-  MUTT_MAILDIR,
-  MUTT_NNTP,
-  MUTT_IMAP,
-  MUTT_NOTMUCH,
-  MUTT_POP,
-  MUTT_COMPRESSED,
-  MUTT_HELP,
-};
-
-void magic_init(struct ConfigSet *cs);
-
-#endif /* MUTT_CONFIG_MAGIC_H */
+#endif /* _HELP_HELP_H */

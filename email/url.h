@@ -43,6 +43,7 @@ enum UrlScheme
   U_SMTPS,
   U_MAILTO,
   U_NOTMUCH,
+  U_HELP,
 };
 
 #define U_DECODE_PASSWD (1 << 0)
