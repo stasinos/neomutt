@@ -22,18 +22,54 @@
 
 #include "config.h"
 #include <stddef.h>
+#include <limits.h>
 #include <stdbool.h>
+#include <time.h>
 #include "mutt/mutt.h"
+#include "email/lib.h"
+#include "context.h"
+#include "mailbox.h"
+#include "muttlib.h"
 #include "mx.h"
-
-struct Context;
-struct Header;
-struct Message;
+#include "protos.h"
 
 int help_mbox_open(struct Context *ctx)
 {
+  if (!ctx || (ctx->mailbox->magic != MUTT_HELP))
+    return -1;
+
   mutt_debug(1, "entering help_mbox_open\n");
-  return -1;
+
+  ctx->mailbox->msg_count = 10;
+  mx_alloc_memory(ctx->mailbox);
+
+  time_t now = time(NULL) - 864000; /* minus 10 days */
+
+  char buf[32];
+  for (size_t i = 0; i < 10; i++)
+  {
+    struct Body *b = mutt_body_new();
+    b->type = TYPE_TEXT;
+    b->subtype = mutt_str_strdup("plain");
+    b->encoding = ENC_7BIT;
+    b->length = -1;
+    b->disposition = DISP_INLINE;
+
+    struct Envelope *e = mutt_env_new();
+    snprintf(buf, sizeof(buf), "message %ld", i);
+    e->subject = mutt_str_strdup(buf);
+    e->from = mutt_addr_parse_list(NULL, "Richard Russon <rich@flatcap.org>");
+
+    struct Email *h = mutt_email_new();
+    h->content = b;
+    h->env = e;
+    h->date_sent = now + 86400 * i;
+    h->received = now + 86400 * i;
+    h->index = i;
+    ctx->mailbox->hdrs[i] = h;
+  }
+  mx_update_context(ctx, 10);
+  return 0;
 }
 
 int help_mbox_open_append(struct Context *ctx, int flags)
@@ -51,19 +87,39 @@ int help_mbox_check(struct Context *ctx, int *index_hint)
 int help_mbox_sync(struct Context *ctx, int *index_hint)
 {
   mutt_debug(1, "entering help_mbox_sync\n");
-  return -1;
+  return 0;
 }
 
 int help_mbox_close(struct Context *ctx)
 {
   mutt_debug(1, "entering help_mbox_close\n");
-  return -1;
+  return 0;
 }
 
 int help_msg_open(struct Context *ctx, struct Message *msg, int msgno)
 {
-  mutt_debug(1, "entering help_msg_open\n");
-  return -1;
+  mutt_debug(1, "entering help_msg_open: %d, %s\n", msgno, ctx->mailbox->hdrs[msgno]->env->subject);
+
+  char buf[PATH_MAX];
+  mutt_mktemp(buf, sizeof(buf));
+  FILE *fp = mutt_file_fopen(buf, "w+");
+  if (!fp)
+    return -1;
+
+  fprintf(fp, "From rich@flatcap.org Sun Feb 11 02:06:47 2018\n");
+  fprintf(fp, "Subject: test message\n");
+  fprintf(fp, "From: Richard Russon <rich@flatcap.org>\n");
+  fprintf(fp, "To: john@example.com\n");
+  fprintf(fp, "\n");
+  ctx->mailbox->hdrs[msgno]->content->offset = ftello(fp);
+
+  for (size_t i = 0; i < 10; i++)
+    fprintf(fp, "contents %03ld\n", (msgno * 100) + i);
+
+  ctx->mailbox->hdrs[msgno]->content->length = ftello(fp);
+  msg->fp = fp;
+  msg->path = mutt_str_strdup(buf);
+  return 0;
 }
 
 int help_msg_open_new(struct Context *ctx, struct Message *msg, struct Email *e)
@@ -81,7 +137,8 @@ int help_msg_commit(struct Context *ctx, struct Message *msg)
 int help_msg_close(struct Context *ctx, struct Message *msg)
 {
   mutt_debug(1, "entering help_msg_close\n");
-  return -1;
+  mutt_file_fclose(&msg->fp);
+  return 0;
 }
 
 int help_msg_padding_size(struct Context *ctx)
