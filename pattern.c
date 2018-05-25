@@ -42,7 +42,6 @@
 #include "copy.h"
 #include "curs_lib.h"
 #include "globals.h"
-#include "group.h"
 #include "handler.h"
 #include "hdrline.h"
 #include "menu.h"

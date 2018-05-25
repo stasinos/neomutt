@@ -55,7 +55,6 @@ WHERE char *LastFolder;
 
 extern const char *GitVer;
 
-WHERE struct Hash *Groups;
 WHERE struct Hash *ReverseAliases;
 WHERE struct Hash *TagFormats;
 

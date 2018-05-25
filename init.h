@@ -44,7 +44,6 @@
 #include "curs_main.h"
 #include "edit.h"
 #include "globals.h"
-#include "group.h"
 #include "handler.h"
 #include "hdrline.h"
 #include "hook.h"
