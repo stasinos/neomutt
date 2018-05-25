@@ -2816,7 +2816,6 @@ void mutt_free_opts(void)
   mutt_regexlist_free(&UnMailLists);
   mutt_regexlist_free(&UnSubscribedLists);
 
-  mutt_hash_destroy(&Groups);
   mutt_hash_destroy(&ReverseAliases);
   mutt_hash_destroy(&TagFormats);
   mutt_hash_destroy(&TagTransforms);
@@ -2893,7 +2892,6 @@ int mutt_init(bool skip_sys_rc, struct ListHead *commands)
   err.data = mutt_mem_malloc(err.dsize);
   err.dptr = err.data;
 
-  Groups = mutt_hash_create(1031, 0);
   /* reverse alias keys need to be strdup'ed because of idna conversions */
   ReverseAliases = mutt_hash_create(
       1031, MUTT_HASH_STRCASECMP | MUTT_HASH_STRDUP_KEYS | MUTT_HASH_ALLOW_DUPS);
