@@ -41,7 +41,7 @@ static struct Hash *groups(void)
   static struct Hash *g = NULL;
   if (g == NULL)
   {
-    mutt_hash_create(1031, 0);
+    g = mutt_hash_create(1031, 0);
   }
   return g;
 }
