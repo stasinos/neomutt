@@ -2122,6 +2122,7 @@ int mutt_index_menu(void)
 #ifdef USE_SIDEBAR
       case OP_SIDEBAR_OPEN:
 #endif
+      case OP_HELP_BOX:
       case OP_MAIN_CHANGE_FOLDER:
       case OP_MAIN_NEXT_UNREAD_MAILBOX:
       case OP_MAIN_CHANGE_FOLDER_READONLY:
@@ -2173,6 +2174,12 @@ int mutt_index_menu(void)
           mutt_browser_select_dir(buf);
         }
 #endif
+        else if (op == OP_HELP_BOX)
+        {
+          cp = _("Open help mailbox/chapter");
+          mutt_str_strfcpy(buf, "help://", sizeof(buf));
+          mutt_enter_fname(cp, buf, sizeof(buf), 1);
+        }
 #ifdef USE_NOTMUCH
         else if (op == OP_MAIN_CHANGE_VFOLDER)
         {

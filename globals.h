@@ -108,6 +108,7 @@ WHERE char *DateFormat;                    ///< Config: strftime format string f
 WHERE char *DsnNotify;                     ///< Config: Request notification for message delivery or delay
 WHERE char *DsnReturn;                     ///< Config: What to send as a notification of message delivery or delay
 WHERE char *Editor;                        ///< Config: External command to use as an email editor
+WHERE char *HelpDocDir;
 WHERE char *Hostname;                      ///< Config: Fully-qualified domain name of this machine
 WHERE char *IndexFormat;                   ///< Config: printf-like format string for the index menu (emails)
 

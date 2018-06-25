@@ -1264,6 +1264,13 @@ struct ConfigDef MuttVars[] = {
   ** running.  Since this variable is primarily aimed at new users, neither
   ** of these should present a major problem.
   */
+  { "help_doc_dir",     DT_PATH, R_NONE, &HelpDocDir, IP PKGDOCDIR "/help" },
+  /*
+  ** .pp
+  ** Specifies the location that will be used as help mailbox and where NeoMutt
+  ** expect to find its help documents (currently regular Markdown files with a
+  ** YAML header, a.k.a. front matter). The help mailbox is handled read-only.
+  */
   { "hidden_host",      DT_BOOL, R_NONE, &HiddenHost, false },
   /*
   ** .pp
