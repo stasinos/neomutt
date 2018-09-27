@@ -43,6 +43,8 @@
  * | email/tags.c           | @subpage email_tags      |
  * | email/thread.c         | @subpage email_thread    |
  * | email/url.c            | @subpage email_url       |
+ *
+ * @image html libemail.svg
  */
 
 #ifndef MUTT_EMAIL_LIB_H
