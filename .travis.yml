@@ -1,9 +1,8 @@
 notifications:
-  email:
-    recipients:
-      - rich@flatcap.org
-    on_success: change
-    on_failure: always
+  recipients:
+    - rich@flatcap.org
+  on_success: change
+  on_failure: always
 
 sudo: false
 dist: trusty
@@ -18,7 +17,10 @@ addons:
       - autopoint
       - docbook-simple
       - docbook-xsl
+      - doxygen
       - gettext
+      - gpgsm
+      - graphviz
       - libdb-dev
       - libgdbm-dev
       - libgnutls-dev
@@ -35,6 +37,7 @@ addons:
       - libtokyocabinet-dev
       - libxml2-utils
       - lua5.2
+      - luarocks
       - lynx
       - xsltproc
 
@@ -42,7 +45,7 @@ git:
   depth: 3
 
 install:
-  - git clone --depth 1 https://github.com/neomutt/travis-build.git ~/config
+  - luarocks install --local busted
 
 before_script:
   - ccache --zero-stats
@@ -51,9 +54,10 @@ before_script:
   - export -f travis_nanoseconds
   - export -f travis_time_finish
   - export -f travis_time_start
+  # - eval $(luarocks path --bin)
 
 script:
-  - ~/config/build
+  - .travis/release-test.sh
 
 after_script:
   - ccache --show-stats
